@@ -98,7 +98,7 @@ class Car {
     this.odometer = 0;
   }
   fill(gallons){
-    this.tank = gallons + this.tank;
+    return this.tank = gallons + this.tank;
   }
   drive(distance){
     const driveableMiles = (this.tank * this.milesPerGallon);
@@ -107,9 +107,9 @@ class Car {
       this.tank = this.tank - (distance / this.milesPerGallon)
     }else {
       this.tank = 0;
+      this.odometer = this.odometer + driveableMiles;
       return `I ran out of fuel at ${this.odometer} miles`;
     }
-    
   }
 }
 
@@ -135,12 +135,12 @@ class Lambdasian {
     return `Hello my name is ${this.name}, I am from ${this.location}`;
   }
 }
-const person = new Lambdasian({
-  name: 'Dani',
-  age: 33,
-  location: 'Illinois'
-});
-console.log(person.speak());
+// const person = new Lambdasian({
+//   name: 'Dani',
+//   age: 33,
+//   location: 'Illinois'
+// });
+// console.log(person.speak());
 /*
   TASK 4
     - Write an Instructor class extending Lambdasian.
@@ -155,9 +155,31 @@ console.log(person.speak());
         + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
-class Instructor {
-
+class Instructor extends Lambdasian {
+  constructor(atrs){
+    super(atrs);
+    this.specialty = atrs.specialty;
+    this.favLanguage = atrs.favLanguage;
+    this.catchPhrase = atrs.catchPhrase;
+  }
+  demo(subject){
+    this.subject = subject;
+    return `Today we are learning about ${subject}`;
+  }
+  grade(student, subject){
+    return `${student.name} receives a perfect score on ${subject}`;
+  }
 }
+// const teacher = new Instructor({
+//   name: 'Robyn',
+//   age: 48,
+//   location: 'Unknown',
+//   specialty: 'redux',
+//   favLanguage: 'JavaScript',
+//   catchPhrase: "Don't forget the homies"
+// });
+// console.log(teacher.demo('JavaScript'));
+// console.log(teacher.grade('Dani', 'JavaScript'));
 /*
   TASK 5
     - Write a Student class extending Lambdasian.
@@ -173,9 +195,34 @@ class Instructor {
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
-class Student {
-   
+class Student extends Lambdasian {
+   constructor(atrs){
+     super(atrs);
+     this.previousBackground = atrs.previousBackground;
+     this.className = atrs.className;
+     this.favSubjects = atrs.favSubjects;
+   }
+   listSubjects (){
+     return `Loving ${this.favSubjects}`;
+   }
+   PRAssignment (subject){
+    return `${this.name} has submitted a PR for ${subject}`;
+   }
+   sprintChallenge (subject){
+     return `${this.name} has begun sprint challenge on ${subject}`;
+   }
 }
+// const berto = new Student({
+//   name: 'Berto',
+//   age: 29,
+//   location: 'California',
+//   previousBackground: 'sales',
+//   className: 'School of Rock!',
+//   favSubjects: ['HTML', 'CSS', 'JS']
+// });
+// console.log(berto.listSubjects());
+// console.log(berto.PRAssignment('JavaScript'));
+// console.log(berto.sprintChallenge('JavaScript'));
 
 /*
   TASK 6
@@ -190,9 +237,32 @@ class Student {
         + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
-class ProjectManager {
-   
+class ProjectManager extends Instructor {
+   constructor(atrs){
+     super(atrs);
+     this.gradClassName = atrs.gradClassName;
+     this.favInstructor = atrs.favInstructor;
+   }
+   standUp(subject){
+     return `${this.name} announces to ${subject}, @channel standy times!`;
+   }
+   debugsCode(student, subject){
+     return `${this.name} debugs ${student.name}'s code on ${subject}`;
+   }
 }
+// const pablo = new ProjectManager({
+//   name: 'Pablo',
+//   age: 35,
+//   location: 'In my house',
+//   specialty: 'to be awesome',
+//   favLanguage: 'every language',
+//   catchPhrase: 'every day is another chance to get it right!',
+//   gradClassName: 'Web47',
+//   favInstructor: 'Brit'
+// });
+
+// console.log(pablo.standUp('Web47'));
+// console.log(pablo.debugsCode('Dani', 'JS'));
 /*
   STRETCH PROBLEM (no tests!)
     - Extend the functionality of the Student by adding a prop called grade and setting it equal to a number between 1-100.
